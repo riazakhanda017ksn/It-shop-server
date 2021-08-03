@@ -30,10 +30,20 @@ client.connect((err) => {
   //     res.send(documents)
   //   })
   // })
-  app.get("/UserDetailsShow", (req, res) => {
-    userCollection.find().toArray((err, items) => {
-      res.send(items);
-    });
+  // app.get("/UserDetailsShow", (req, res) => {
+  //   userCollection.find().toArray((err, items) => {
+  //     res.send(items);
+  //   });
+  // });
+
+  app.get("/ownOrder", (req, res) => {
+    userCollection
+      .find({ email: req.query.email })
+      //
+      .toArray((err, items) => {
+        console.log("items", items);
+        res.send(items);
+      });
   });
 
   app.post("/UserDetailsItem", (req, res) => {
@@ -47,12 +57,6 @@ client.connect((err) => {
 
   app.get("/events", (req, res) => {
     eventCollection.find().toArray((err, items) => {
-      res.send(items);
-    });
-  });
-
-  app.get("/ownData", (req, res) => {
-    userCollection.find({ email: req.query.email }).toArray((err, items) => {
       res.send(items);
     });
   });
