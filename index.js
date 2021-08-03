@@ -24,14 +24,13 @@ client.connect((err) => {
   const eventCollection = client.db("your-shop").collection("events");
   const userCollection = client.db("your-shop").collection("UserDetailsShow");
 
-  // app.get('/UserDetailsShow',(req,res)=>{
-  //   userCollection.find({})
-  //   .toArray((err,documents)=>{
-  //     res.send(documents)
-  //   })
-  // })
-  // app.get("/UserDetailsShow", (req, res) => {
-  //   userCollection.find().toArray((err, items) => {
+  app.get("/UserDetailsShow", (req, res) => {
+    userCollection.find().toArray((err, items) => {
+      res.send(items);
+    });
+  });
+  // app.get("/", (req, res) => {
+  //   userCollection.find({ name: { $regex: search } }).toArray((err, items) => {
   //     res.send(items);
   //   });
   // });
@@ -56,9 +55,13 @@ client.connect((err) => {
   });
 
   app.get("/events", (req, res) => {
-    eventCollection.find().toArray((err, items) => {
-      res.send(items);
-    });
+    const search = req.query.search;
+    eventCollection
+      .find({ name: { $regex: search } })
+      //
+      .toArray((err, items) => {
+        res.send(items);
+      });
   });
 
   app.post("/addProduct", (req, res) => {
